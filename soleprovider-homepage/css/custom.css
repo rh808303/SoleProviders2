@@ -1,0 +1,13 @@
+/* Custom styles that extend or override Bootstrap */
+.product-price {
+    font-weight: bold;
+    color: #333;
+}
+
+.cart-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+/* Add any other custom styles here */

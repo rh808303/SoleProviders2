@@ -7,19 +7,9 @@ const fs = require('fs');
 // Serve static files from the current directory
 app.use(express.static(__dirname));
 
-// Serve about page with injected API key
+// Serve about page
 app.get('/about.html', (req, res) => {
-    try {
-        const htmlContent = fs.readFileSync(path.join(__dirname, 'about.html'), 'utf8');
-        const modifiedHtml = htmlContent.replace(
-            '<!-- The API key will be injected by the server -->',
-            `<script src="https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&callback=initMap" async defer></script>`
-        );
-        res.send(modifiedHtml);
-    } catch (error) {
-        console.error('Error serving about.html:', error);
-        res.status(500).send('Internal Server Error');
-    }
+    res.sendFile(path.join(__dirname, 'about.html'));
 });
 
 // All other routes serve static files

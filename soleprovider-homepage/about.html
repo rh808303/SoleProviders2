@@ -85,19 +85,10 @@
                     map: map,
                 });
             }
-
-            // Load the Google Maps API script dynamically
-            function loadGoogleMapsAPI() {
-                const script = document.createElement('script');
-                script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&callback=initMap`;
-                script.async = true;
-                script.defer = true;
-                document.head.appendChild(script);
-            }
-
-            // Call the function to load the Google Maps API
-            loadGoogleMapsAPI();
-
+        </script>
+        <!-- Google Maps API script with key -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfNanSGIJHdERKqbeAhiLTd6AFEfUbp-U&callback=initMap" async defer></script>
+        <script>
             // YouTube Player API
             function onYouTubeIframeAPIReady() {
                 new YT.Player('player', {
@@ -117,7 +108,5 @@
                 });
             }
         </script>
-        <!-- Add Google Maps API script -->
-        <!-- The API key will be injected by the server -->
     </body>
 </html>

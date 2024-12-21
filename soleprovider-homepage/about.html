@@ -72,41 +72,64 @@
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Sole Provider 2024</p></div>
         </footer>
         <script>
+            // Add event listener for page visibility
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    // Reinitialize map when page becomes visible
+                    initMap();
+                    // Reinitialize YouTube player
+                    onYouTubeIframeAPIReady();
+                }
+            });
+
             // Initialize and add the map
             function initMap() {
-                // London coordinates
-                const location = { lat: 51.5074, lng: -0.1278 };
-                const map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 13,  // Closer zoom for city view
-                    center: location,
-                });
-                const marker = new google.maps.Marker({
-                    position: location,
-                    map: map,
-                });
+                try {
+                    // London coordinates
+                    const location = { lat: 51.5074, lng: -0.1278 };
+                    const map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 13,
+                        center: location,
+                    });
+                    const marker = new google.maps.Marker({
+                        position: location,
+                        map: map,
+                    });
+                } catch (error) {
+                    console.error('Error initializing map:', error);
+                }
             }
+
+            // YouTube Player API
+            function onYouTubeIframeAPIReady() {
+                try {
+                    new YT.Player('player', {
+                        videoId: '8t8LgFK3xWY',
+                        events: {
+                            'onReady': (event) => event.target.playVideo()
+                        },
+                        playerVars: {
+                            'autoplay': 0,
+                            'mute': 0,
+                            'rel': 0,
+                            'modestbranding': 1,
+                            'controls': 1,
+                            'showinfo': 1,
+                            'fs': 1
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error initializing YouTube player:', error);
+                }
+            }
+
+            // Call initialization functions when page loads
+            window.addEventListener('load', function() {
+                initMap();
+                onYouTubeIframeAPIReady();
+            });
         </script>
         <!-- Google Maps API script with key -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfNanSGIJHdERKqbeAhiLTd6AFEfUbp-U&callback=initMap" async defer></script>
-        <script>
-            // YouTube Player API
-            function onYouTubeIframeAPIReady() {
-                new YT.Player('player', {
-                    videoId: '8t8LgFK3xWY', // Updated video ID from the provided URL
-                    events: {
-                        'onReady': (event) => event.target.playVideo()
-                    },
-                    playerVars: {
-                        'autoplay': 0, // Changed to 0 so it doesn't autoplay and annoy users
-                        'mute': 0,    // Changed to 0 so it's not muted
-                        'rel': 0,
-                        'modestbranding': 1,
-                        'controls': 1,
-                        'showinfo': 1,
-                        'fs': 1
-                    }
-                });
-            }
-        </script>
     </body>
 </html>

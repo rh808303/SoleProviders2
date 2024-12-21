@@ -79,6 +79,7 @@ class ShoppingCart {
             localStorage.setItem('cart', JSON.stringify(this.cart));
         } catch (e) {
             console.error('Failed to save cart:', e);
+            // Add fallback storage method
         }
     }
 

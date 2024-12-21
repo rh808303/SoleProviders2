@@ -2,53 +2,33 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const path = require('path');
+const fs = require('fs');
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from the current directory
+app.use(express.static(__dirname));
 
+// Serve about page with injected API key
 app.get('/about.html', (req, res) => {
-    res.send(`
-        <!DOCTYPE html>
-        <html lang="en">
-            <head>
-                <!-- ...existing code... -->
-            </head>
-            <body>
-                <!-- ...existing code... -->
-                <script>
-                    // Initialize and add the map
-                    function initMap() {
-                        const location = { lat: -25.344, lng: 131.036 };
-                        const map = new google.maps.Map(document.getElementById("map"), {
-                            zoom: 4,
-                            center: location,
-                        });
-                        const marker = new google.maps.Marker({
-                            position: location,
-                            map: map,
-                        });
-                    }
-
-                    // YouTube Player API
-                    function onYouTubeIframeAPIReady() {
-                        new YT.Player('player', {
-                            videoId: 'dQw4w9WgXcQ',
-                            events: {
-                                'onReady': (event) => event.target.playVideo()
-                            },
-                            playerVars: {
-                                'autoplay': 1,
-                                'mute': 1
-                            }
-                        });
-                    }
-                </script>
-                <!-- Add Google Maps API script -->
-                <script src="https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&callback=initMap" loading="async" defer></script>
-            </body>
-        </html>
-    `);
+    try {
+        const htmlContent = fs.readFileSync(path.join(__dirname, 'about.html'), 'utf8');
+        const modifiedHtml = htmlContent.replace(
+            '<!-- The API key will be injected by the server -->',
+            `<script src="https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&callback=initMap" async defer></script>`
+        );
+        res.send(modifiedHtml);
+    } catch (error) {
+        console.error('Error serving about.html:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+// All other routes serve static files
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, req.path));
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+    console.log('Open http://localhost:3000/about.html in your browser');
 });

@@ -89,13 +89,18 @@
             // YouTube Player API
             function onYouTubeIframeAPIReady() {
                 new YT.Player('player', {
-                    videoId: 'dQw4w9WgXcQ',
+                    videoId: '8t8LgFK3xWY', // Updated video ID from the provided URL
                     events: {
                         'onReady': (event) => event.target.playVideo()
                     },
                     playerVars: {
-                        'autoplay': 1,
-                        'mute': 1 // Optional: Mute the video if you don't want sound to play automatically
+                        'autoplay': 0, // Changed to 0 so it doesn't autoplay and annoy users
+                        'mute': 0,    // Changed to 0 so it's not muted
+                        'rel': 0,
+                        'modestbranding': 1,
+                        'controls': 1,
+                        'showinfo': 1,
+                        'fs': 1
                     }
                 });
             }

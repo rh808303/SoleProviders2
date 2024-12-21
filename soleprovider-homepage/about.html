@@ -64,14 +64,11 @@
         <script>
             // Initialize and add the map
             function initMap() {
-                // The location of the place
                 const location = { lat: -25.344, lng: 131.036 };
-                // The map, centered at the location
                 const map = new google.maps.Map(document.getElementById("map"), {
                     zoom: 4,
                     center: location,
                 });
-                // The marker, positioned at the location
                 const marker = new google.maps.Marker({
                     position: location,
                     map: map,
@@ -93,6 +90,6 @@
             }
         </script>
         <!-- Add Google Maps API script -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_SECURE_API_KEY&callback=initMap" loading="async" defer></script>
+        <!-- The API key will be injected by the server -->
     </body>
 </html>
